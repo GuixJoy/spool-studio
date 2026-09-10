@@ -9,6 +9,8 @@ interface AskSpoolInputProps {
   onSubmit: () => void
   disabled: boolean
   streaming: boolean
+  /** Render the send button in its active style even when empty (demo contexts). */
+  alwaysActive?: boolean
 }
 
 export function AskSpoolInput({
@@ -17,8 +19,10 @@ export function AskSpoolInput({
   onSubmit,
   disabled,
   streaming,
+  alwaysActive = false,
 }: AskSpoolInputProps) {
   const canSend = !disabled && value.trim().length > 0
+  const showActive = alwaysActive || canSend
 
   return (
     <form
@@ -41,8 +45,8 @@ export function AskSpoolInput({
         aria-label="Send"
         className={cn(
           "flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-colors",
-          canSend
-            ? "bg-[var(--primary)] text-[var(--primary-foreground)] hover:brightness-110"
+          showActive
+            ? "bg-[var(--primary)] !text-black hover:brightness-110"
             : "bg-[var(--surface-elevated)] text-[var(--color-text-faint)]",
         )}
       >

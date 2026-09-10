@@ -733,7 +733,7 @@ function EventChip({
   )
 }
 
-function MonthView({
+export function MonthView({
   currentDate,
   getEventsForDate,
   events,

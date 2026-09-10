@@ -2,7 +2,7 @@
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
-
+/* #35A774 */
 :root {
   --background: #0a0a0a;
   --foreground: #ffffff;
