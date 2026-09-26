@@ -456,7 +456,7 @@ async function uploadFileToR2Session(
   }
 
   try {
-    await new Promise<void>((resolve) => {
+    await new Promise<void>((resolve, reject) => {
       const xhr = new XMLHttpRequest()
 
       xhr.open("PUT", uploadUrl, true)
@@ -476,16 +476,17 @@ async function uploadFileToR2Session(
         console.info("[r2-upload][transport-complete]", {
           status: xhr.status,
         })
-
-        resolve()
+        // ponytail: fail fast on non-2xx; retry/backoff only if transient R2 PUTs prove common
+        if (xhr.status >= 200 && xhr.status < 300) resolve()
+        else reject(new Error(`R2 upload rejected with status ${xhr.status}`))
       }
 
       xhr.onerror = () => {
-        console.warn("[r2-upload][opaque-transport]", {
-          note: "Browser blocked response visibility but upload may still have succeeded.",
-        })
-
-        resolve()
+        reject(
+          new Error(
+            "R2 upload failed (network/CORS). Allow PUT from this origin in the bucket CORS policy.",
+          ),
+        )
       }
 
       xhr.send(file)
