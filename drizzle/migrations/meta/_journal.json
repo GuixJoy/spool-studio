@@ -57,6 +57,13 @@
       "when": 1788423147373,
       "tag": "0007_unstick_processing_assets",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1790441127848,
+      "tag": "0008_friendly_ozymandias",
+      "breakpoints": true
     }
   ]
 }

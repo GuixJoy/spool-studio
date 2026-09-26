@@ -132,6 +132,8 @@ export interface ServiceCycle {
   endDate: string
   reelsTarget: number
   postersTarget: number
+  alreadyPublishedReels: number
+  alreadyPublishedPosters: number
   status: CycleStatus
   createdBy?: string
   createdAt: Date
@@ -165,6 +167,8 @@ export interface CreateCycleInput {
   endDate: string
   reelsTarget: number
   postersTarget: number
+  alreadyPublishedReels?: number
+  alreadyPublishedPosters?: number
 }
 
 export interface AssetComment {
