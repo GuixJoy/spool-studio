@@ -137,6 +137,8 @@ export function AssetFormDialog({
   >("idle")
   const [uploadError, setUploadError] = useState<string | null>(null)
   const [uploadProgress, setUploadProgress] = useState(0)
+  // ponytail: single id reuse per dialog session; full draft-cleanup queue if orphans recur at scale
+  const [createdId, setCreatedId] = useState<string | null>(null)
   const { toast } = useToast()
 
   const statusOptions = useMemo(() => {
@@ -221,6 +223,7 @@ export function AssetFormDialog({
       setUploadState("idle")
       setUploadError(null)
       setUploadProgress(0)
+      setCreatedId(null)
     }
   }
 
@@ -235,10 +238,13 @@ export function AssetFormDialog({
         scheduledAt: toIsoString(values.scheduledAt),
       } as const
 
-      const saved =
-        mode === "create"
-          ? await assetsApi.create(payload)
-          : await assetsApi.update(asset?.id ?? "", payload)
+      // Retry in the same dialog reuses the already-created row instead of
+      // minting a new numbered draft per attempt.
+      const targetId = mode === "edit" ? (asset?.id ?? "") : (createdId ?? "")
+      const saved = targetId
+        ? await assetsApi.update(targetId, payload)
+        : await assetsApi.create(payload)
+      if (mode === "create" && !createdId) setCreatedId(saved.id)
 
       if (selectedFile && uploadAllowed) {
         setUploadState("uploading")
