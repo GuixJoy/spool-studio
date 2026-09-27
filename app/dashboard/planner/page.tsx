@@ -14,6 +14,7 @@ import { useQuery } from "@tanstack/react-query"
 import { Breadcrumb } from "@/components/layout/breadcrumb"
 import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
+import { DayPlanTab } from "@/components/day-plans/day-plan-tab"
 import { clientsApi, cyclesApi } from "@/lib/api-client"
 import { cn } from "@/lib/utils"
 import type { Client, ServiceCycleWithPlan } from "@/types/index"
@@ -57,6 +58,7 @@ export default function PlannerPage() {
   const [filter, setFilter] = useState<
     "all" | "active" | "upcoming" | "completed"
   >("all")
+  const [view, setView] = useState<"cycles" | "day">("cycles")
 
   const clientsQuery = useQuery({
     queryKey: ["clients"],
@@ -160,6 +162,28 @@ export default function PlannerPage() {
         </div>
       </div>
 
+      {/* View tabs */}
+      <div className="flex items-center gap-1 border-b border-[rgba(255,255,255,0.05)]">
+        {(["cycles", "day"] as const).map((tab) => (
+          <button
+            key={tab}
+            onClick={() => setView(tab)}
+            className={cn(
+              "px-4 py-2.5 text-[13px] font-medium border-b-2 transition-all capitalize cursor-pointer",
+              view === tab
+                ? "border-[var(--primary)] text-white font-semibold"
+                : "border-transparent text-[#71717a] hover:text-[#a1a1aa]",
+            )}
+          >
+            {tab === "day" ? "Day Plan" : "Cycles"}
+          </button>
+        ))}
+      </div>
+
+      {view === "day" ? (
+        <DayPlanTab clients={clientsQuery.data ?? []} />
+      ) : (
+        <>
       {/* Filter tabs */}
       <div className="flex items-center gap-1 border-b border-[rgba(255,255,255,0.05)]">
         {(["all", "active", "upcoming", "completed"] as const).map((tab) => (
@@ -358,6 +382,8 @@ export default function PlannerPage() {
             </Card>
           ))}
         </div>
+      )}
+        </>
       )}
     </div>
   )
