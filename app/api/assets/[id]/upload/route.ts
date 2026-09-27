@@ -92,6 +92,7 @@ export async function POST(request: Request, context: RouteContext) {
         r2Key?: string
         key?: string
         fileName?: string
+        dayPlanId?: string
         thumbnailR2Key?: string
         thumbnailKey?: string
       }
@@ -134,6 +135,7 @@ export async function POST(request: Request, context: RouteContext) {
       }
       const result = await finalizeAssetUpload(assetId, {
         fileName: body.fileName,
+        dayPlanId: body.dayPlanId,
         uploadResult: {
           key: r2Metadata.key,
           url: `${getR2PublicBaseUrl()}/${r2Metadata.key}`,
