@@ -53,6 +53,7 @@ export interface User {
   name: string
   role: UserRole
   avatar?: string
+  dailyCapacityUnits: number
   createdAt: Date
 }
 
@@ -169,6 +170,44 @@ export interface CreateCycleInput {
   postersTarget: number
   alreadyPublishedReels?: number
   alreadyPublishedPosters?: number
+}
+
+export type DayPlanStatus = "pending" | "in_progress" | "done"
+
+export interface DayPlan {
+  id: string
+  date: string
+  designerId: string
+  clientId: string
+  cycleId?: string | null
+  kind: "reel" | "poster"
+  qty: number
+  doneQty: number
+  status: DayPlanStatus
+  referenceIds: string[]
+  resultAssetId?: string | null
+  createdBy?: string
+  createdAt: Date
+  updatedAt: Date
+}
+
+export interface CreateDayPlanInput {
+  date: string
+  designerId: string
+  clientId: string
+  cycleId?: string
+  kind: "reel" | "poster"
+  qty: number
+  referenceIds?: string[]
+}
+
+export interface DayRecommendation {
+  designerId: string
+  clientId: string
+  cycleId: string
+  kind: "reel" | "poster"
+  qty: number
+  reason: string
 }
 
 export interface AssetComment {
