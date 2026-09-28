@@ -66,3 +66,7 @@ export async function updateDayPlan(
 export async function deleteDayPlan(id: string): Promise<void> {
   await db.delete(dayPlans).where(eq(dayPlans.id, id))
 }
+
+export async function deleteDayPlansByClientId(clientId: string): Promise<void> {
+  await db.delete(dayPlans).where(eq(dayPlans.client_id, clientId))
+}
