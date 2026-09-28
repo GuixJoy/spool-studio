@@ -667,6 +667,7 @@ describe("removeAsset", () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mocks.logAuditEvent.mockResolvedValue(undefined)
+    mocks.listAssetRevisionsByAssetId.mockResolvedValue([])
   })
 
   it("deletes the R2 file and the DB row", async () => {

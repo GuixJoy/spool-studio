@@ -694,6 +694,14 @@ export const clientsApi = {
   delete: async (id: string): Promise<void> => {
     await fetchJson(`/api/clients/${id}`, { method: "DELETE" })
   },
+
+  clearAssets: async (id: string): Promise<{ removed: number }> => {
+    const payload = await fetchJson<{ removed: number }>(
+      `/api/clients/${id}/assets`,
+      { method: "DELETE" },
+    )
+    return payload
+  },
 }
 
 export const clientReferencesApi = {
@@ -1018,6 +1026,18 @@ export const dashboardApi = {
         timestamp: new Date(entry.timestamp),
       })),
     }
+  },
+}
+
+export interface StorageUsageData {
+  usedBytes: number
+  quotaBytes: number
+  objects: number
+}
+
+export const storageApi = {
+  getUsage: async (): Promise<StorageUsageData> => {
+    return fetchJsonDeduped<StorageUsageData>("/api/storage/usage")
   },
 }
 
