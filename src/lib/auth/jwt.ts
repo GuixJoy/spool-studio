@@ -1,15 +1,18 @@
 import { decodeJwt, jwtVerify, SignJWT } from "jose"
 import type { TokenPayload } from "./types"
 
-if (process.env.NODE_ENV === "production" && !process.env.JWT_SECRET) {
-  throw new Error(
-    "JWT_SECRET must be set in production - refusing to start with the dev fallback secret",
+function getSecret(): Uint8Array {
+  // Lazy (not module-level): Next's build-time page collection imports this
+  // module without env, so fail on first real use instead of at import.
+  if (process.env.NODE_ENV === "production" && !process.env.JWT_SECRET) {
+    throw new Error(
+      "JWT_SECRET must be set in production - refusing to start with the dev fallback secret",
+    )
+  }
+  return new TextEncoder().encode(
+    process.env.JWT_SECRET ?? "dev-secret-change-in-production",
   )
 }
-
-const SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET ?? "dev-secret-change-in-production",
-)
 
 const ALGORITHM = "HS512"
 const EXPIRY_DAYS = 7
@@ -22,12 +25,12 @@ export async function signToken(
     .setIssuedAt()
     .setExpirationTime(`${EXPIRY_DAYS}d`)
     .setSubject(payload.sub)
-    .sign(SECRET)
+    .sign(getSecret())
 }
 
 export async function verifyToken(token: string): Promise<TokenPayload | null> {
   try {
-    const { payload } = await jwtVerify(token, SECRET, {
+    const { payload } = await jwtVerify(token, getSecret(), {
       algorithms: [ALGORITHM],
     })
     return {

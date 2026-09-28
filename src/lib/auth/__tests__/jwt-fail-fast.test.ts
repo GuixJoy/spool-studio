@@ -23,13 +23,19 @@ describe("jwt fail-fast guard", () => {
     }
   })
 
-  it("throws when imported in production without JWT_SECRET", async () => {
+  it("throws on first use in production without JWT_SECRET (not at import)", async () => {
     testEnv.NODE_ENV = "production"
     delete process.env.JWT_SECRET
 
-    await expect(import("@/lib/auth/jwt")).rejects.toThrow(
-      /JWT_SECRET must be set in production/,
-    )
+    // Import must succeed so build-time page collection never crashes.
+    const mod = await import("@/lib/auth/jwt")
+    await expect(
+      mod.signToken({
+        sub: "user-1",
+        email: "user@example.com",
+        role: "admin",
+      }),
+    ).rejects.toThrow(/JWT_SECRET must be set in production/)
   })
 
   it("imports cleanly in production when JWT_SECRET is set", async () => {
