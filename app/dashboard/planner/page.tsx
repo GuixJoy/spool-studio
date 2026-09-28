@@ -256,7 +256,7 @@ export default function PlannerPage() {
                   const config = statusConfig[cycle.status]
                   const Icon = config.icon
                   const totalPlanned =
-                    cycle.totalReelsPlanned + cycle.totalPostersPlanned
+                    cycle.reelsTarget + cycle.postersTarget
                   const madeReels =
                     cycle.plans.reduce(
                       (s, p) => s + (p.madeReels ?? 0),
@@ -327,11 +327,6 @@ export default function PlannerPage() {
                             </span>
                           </div>
                         </div>
-                        {cycle.status === "active" && (
-                          <span className="text-[14px] font-medium text-white">
-                            {madePct}%
-                          </span>
-                        )}
                       </div>
 
                       {/* Designer work (made) */}
@@ -352,6 +347,9 @@ export default function PlannerPage() {
                             {madePosters} / {cycle.postersTarget}
                           </span>
                         </div>
+                        <span className="text-[14px] font-medium text-white">
+                          {madePct}%
+                        </span>
                       </div>
 
                       {/* Publication */}
