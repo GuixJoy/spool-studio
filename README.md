@@ -17,7 +17,7 @@ Plan, produce, review, approve, and publish client content from a single workspa
 
 **Calendar** — Month, week, and day views with drag-to-reschedule. Overlays client contract periods, content assets, and upload queue items. Supports recurring events.
 
-**Kanban Board** — Drag-and-drop content production pipeline. Track status from draft through approval. Filter by client or team member.
+**Kanban Board** — Drag-and-drop content production pipeline. Track status from draft through approval. Filter by client or team member. It is
 
 **Asset Library** — Central repository for reels and posters. Upload, download, version history, comments, and activity logs. Inline previews.
 
