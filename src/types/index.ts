@@ -152,6 +152,10 @@ export interface ContentPlanRow {
   plannedPosters: number
   actualReels?: number
   actualPosters?: number
+  madeReels: number
+  madePosters: number
+  publishedReels: number
+  publishedPosters: number
 }
 
 export interface ServiceCycleWithPlan extends ServiceCycle {
