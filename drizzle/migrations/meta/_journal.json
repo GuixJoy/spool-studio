@@ -85,6 +85,20 @@
       "when": 1790497041005,
       "tag": "0011_perfect_venus",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1791445917540,
+      "tag": "0012_groovy_absorbing_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1791456935703,
+      "tag": "0013_flippant_purple_man",
+      "breakpoints": true
     }
   ]
 }

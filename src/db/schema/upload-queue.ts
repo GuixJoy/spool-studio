@@ -19,6 +19,10 @@ export const uploadQueue = pgTable("upload_queue", {
   caption: text("caption"),
   hashtags: text("hashtags"),
   recurrence: jsonb("recurrence"),
+  ig_container_id: text("ig_container_id"),
+  ig_media_id: text("ig_media_id"),
+  attempts: integer("attempts").notNull().default(0),
+  last_error: text("last_error"),
 })
 
 export type UploadQueue = typeof uploadQueue.$inferSelect
